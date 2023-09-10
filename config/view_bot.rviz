@@ -119,6 +119,8 @@ Visualization Manager:
           Value: true
         left_wheel_front:
           Value: true
+        odom:
+          Value: true
         right_wheel_back:
           Value: true
         right_wheel_front:
@@ -129,22 +131,24 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        base_link:
-          chassis:
+        odom:
+          base_link:
+            chassis:
+              {}
             left_wheel_back:
+              {}
+            left_wheel_front:
               {}
             right_wheel_back:
               {}
             right_wheel_front:
               {}
-          left_wheel_front:
-            {}
       Update Interval: 0
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: base_link
+    Fixed Frame: odom
     Frame Rate: 30
   Name: root
   Tools:
@@ -187,7 +191,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 1.9327137470245361
+      Distance: 3.0411627292633057
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
