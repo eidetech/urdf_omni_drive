@@ -2,6 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 <xacro:include filename="inertial_macros.xacro"/>
+<xacro:include filename="robot_macros.xacro"/>
 
 <material name="white">
     <color rgba="1 1 1 1"/>
@@ -38,7 +39,7 @@
     <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
         <!-- <mesh filename="package://urdf_omni_drive/description/meshes/frame.STL" scale="0.001 0.001 0.001"/> -->
-        <box size="0.7 0.3 0.15"/>
+        <box size="0.75 0.33 0.12"/>
       </geometry>
       <material name="white"/>
     </visual>
@@ -46,11 +47,11 @@
       <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
           <!-- <mesh filename="package://urdf_omni_drive/description/meshes/frame.STL" scale="0.001 0.001 0.001"/> -->
-          <box size="0.7 0.3 0.15"/>
+          <box size="0.75 0.33 0.12"/>
         </geometry>
       </collision>
 
-      <xacro:inertial_box mass="5" x="0.7" y="0.3" z="0.15">
+      <xacro:inertial_box mass="5" x="0.75" y="0.33" z="0.12">
         <origin xyz="0 0 0" rpy="0 0 0"/>
       </xacro:inertial_box>
   </link>
@@ -60,10 +61,64 @@
   </gazebo>
 
 <!-- LEFT WHEEL FRONT -->
-<joint name="left_wheel_front_joint" type="fixed">
+<xacro:robot_wheel joint_name="left_wheel_front" 
+                    joint_type="fixed" 
+                    parent="base_link" 
+                    origin_x="0.245" 
+                    origin_y="0.205" 
+                    origin_z="-0.02" 
+                    rotation_x="${3*pi/2}"
+                    rotation_y="${pi}"
+                    rotation_z="0"
+                    radius="0.0625" 
+                    length="0.08">
+</xacro:robot_wheel>
+<!-- LEFT WHEEL BACK -->
+<xacro:robot_wheel joint_name="left_wheel_back" 
+                    joint_type="fixed" 
+                    parent="base_link" 
+                    origin_x="-0.245" 
+                    origin_y="0.205" 
+                    origin_z="-0.02" 
+                    rotation_x="${3*pi/2}"
+                    rotation_y="${pi}"
+                    rotation_z="0"
+                    radius="0.0625" 
+                    length="0.08">
+</xacro:robot_wheel>
+
+<!-- RIGHT WHEEL FRONT -->
+<xacro:robot_wheel joint_name="right_wheel_front" 
+                    joint_type="fixed" 
+                    parent="base_link" 
+                    origin_x="0.245" 
+                    origin_y="-0.205" 
+                    origin_z="-0.02" 
+                    rotation_x="${pi/2}"
+                    rotation_y="0"
+                    rotation_z="0"
+                    radius="0.0625" 
+                    length="0.08">
+</xacro:robot_wheel>
+
+<!-- RIGHT WHEEL BACK -->
+<xacro:robot_wheel joint_name="right_wheel_back" 
+                    joint_type="fixed" 
+                    parent="base_link" 
+                    origin_x="-0.245" 
+                    origin_y="-0.205" 
+                    origin_z="-0.02" 
+                    rotation_x="${pi/2}"
+                    rotation_y="0"
+                    rotation_z="0"
+                    radius="0.0625" 
+                    length="0.08">
+</xacro:robot_wheel>
+
+<!-- <joint name="left_wheel_front_joint" type="fixed">
   <parent link="base_link"/>
   <child link="left_wheel_front"/>
-  <origin xyz="0.25 0.175 -0.075" rpy="-${pi/2} 0 0"/>
+  <origin xyz="0.245 0.205 -0.02" rpy="-${pi/2} 0 0"/>
   <axis xyz="0 0 1"/>
 </joint>
 
@@ -71,16 +126,16 @@
   <visual>
     <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
-        <cylinder radius="0.08" length="0.05"/>
+         <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/>
+        <cylinder radius="0.0625" length="0.08"/>
       </geometry>
       <material name="black"/>
   </visual>
   <collision>
     <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
-        <cylinder radius="0.08" length="0.05"/>
+        <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/>
+        <cylinder radius="0.0625" length="0.08"/>
       </geometry>
   </collision>
 
@@ -91,10 +146,10 @@
 
 <gazebo reference="left_wheel_front">
   <material>Gazebo/DarkGrey</material>
-</gazebo>
+</gazebo> -->
 
-<!-- LEFT WHEEL BACK -->
-<joint name="left_wheel_back_joint" type="fixed">
+
+<!-- <joint name="left_wheel_back_joint" type="fixed">
   <parent link="base_link"/>
   <child link="left_wheel_back"/>
   <origin xyz="-0.25 0.175 -0.075" rpy="-${pi/2} 0 0"/>
@@ -105,7 +160,7 @@
   <visual>
     <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
+        <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/>
         <cylinder radius="0.08" length="0.05"/>
       </geometry>
       <material name="black"/>
@@ -113,7 +168,7 @@
   <collision>
     <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
+        <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/>
         <cylinder radius="0.08" length="0.05"/>
       </geometry>
   </collision>
@@ -127,7 +182,7 @@
   <material>Gazebo/DarkGrey</material>
 </gazebo>
 
-<!-- RIGHT WHEEL FRONT -->
+
 <joint name="right_wheel_front_joint" type="fixed">
   <parent link="base_link"/>
   <child link="right_wheel_front"/>
@@ -139,7 +194,7 @@
   <visual>
     <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
+        <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/>
         <cylinder radius="0.08" length="0.05"/>
       </geometry>
       <material name="black"/>
@@ -147,7 +202,7 @@
   <collision>
     <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
+        <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/>
         <cylinder radius="0.08" length="0.05"/>
       </geometry>
   </collision>
@@ -161,7 +216,7 @@
   <material>Gazebo/DarkGrey</material>
 </gazebo>
 
-<!-- RIGHT WHEEL BACK -->
+
 <joint name="right_wheel_back_joint" type="fixed">
   <parent link="base_link"/>
   <child link="right_wheel_back"/>
@@ -173,7 +228,7 @@
   <visual>
     <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
+        <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/>
         <cylinder radius="0.08" length="0.05"/>
       </geometry>
       <material name="black"/>
@@ -181,7 +236,7 @@
   <collision>
     <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
+        <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/>
         <cylinder radius="0.08" length="0.05"/>
       </geometry>
   </collision>
@@ -195,4 +250,5 @@
   <material>Gazebo/DarkGrey</material>
 </gazebo>
 
-</robot> 
+-->
+</robot>
