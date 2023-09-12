@@ -18,25 +18,6 @@
 
 <!-- BASE LINK -->
 <link name="base_link">
-</link>
-
-<joint name="base_footprint_joint" type="fixed">
-  <parent link="base_link"/>
-  <child link="base_footprint"/>
-  <origin xyz="0 0 0"/>
-</joint>
-
-<link name="base_footprint">
-</link>
-
-<!-- CHASSIS -->
-<joint name="chassis_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="chassis"/>
-    <origin xyz="0 0 0"/>
-</joint>
-
-<link name="chassis">
     <visual>
     <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
@@ -58,40 +39,222 @@
       </xacro:inertial_box>
   </link>
 
-  <gazebo reference="chassis">
+  <gazebo reference="base_link">
       <material>Gazebo/SkyBlue</material>
   </gazebo>
 
+<!-- BASE FOOTPRINT -->
+<link name="base_footprint">
+</link>
+
+<joint name="base_footprint_joint" type="fixed">
+  <parent link="base_link"/>
+  <child link="base_footprint"/>
+  <origin xyz="0 0 0"/>
+</joint>
+
+
+<!-- 
+ CHASSIS 
+<joint name="chassis_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="chassis"/>
+    <origin xyz="0 0 0"/>
+</joint> -->
+
+<!-- <link name="chassis">
+    <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+         <mesh filename="package://urdf_omni_drive/description/meshes/frame.STL" scale="0.001 0.001 0.001"/> 
+        <box size="0.75 0.33 0.12"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://urdf_omni_drive/description/meshes/frame.STL" scale="0.001 0.001 0.001"/> 
+          <box size="0.75 0.33 0.12"/>
+        </geometry>
+      </collision>
+
+      <xacro:inertial_box mass="5" x="0.75" y="0.33" z="0.12">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </xacro:inertial_box>
+  </link>
+
+  <gazebo reference="chassis">
+      <material>Gazebo/SkyBlue</material>
+  </gazebo> -->
+
 <!-- LEFT WHEEL FRONT -->
-<xacro:robot_wheel joint_name="left_wheel_front" 
-                    joint_type="fixed" 
-                    parent="base_link" 
-                    origin_x="0.245" 
-                    origin_y="0.205" 
-                    origin_z="-0.02" 
-                    rotation_x="${3*pi/2}"
-                    rotation_y="${pi}"
-                    rotation_z="0"
-                    radius="0.0625" 
-                    length="0.08">
-</xacro:robot_wheel>
-<!-- LEFT WHEEL BACK -->
-<xacro:robot_wheel joint_name="left_wheel_back" 
-                    joint_type="fixed" 
-                    parent="base_link" 
-                    origin_x="-0.245" 
-                    origin_y="0.205" 
-                    origin_z="-0.02" 
-                    rotation_x="${3*pi/2}"
-                    rotation_y="${pi}"
-                    rotation_z="0"
-                    radius="0.0625" 
-                    length="0.08">
-</xacro:robot_wheel>
+<link name="left_wheel_front">
+  <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
+          <cylinder radius="0.0625" length="0.08"/>
+      </geometry>
+      <material name="black"/>
+  </visual>
+  <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
+          <cylinder radius="0.0625" length="0.08"/>
+      </geometry>
+  </collision>
+
+  <xacro:inertial_cylinder mass="0.5" radius="0.0625" length="0.08">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:inertial_cylinder> 
+</link>
+
+<joint name="left_wheel_front" type="continuous">
+  <parent link="base_link"/>
+  <child link="left_wheel_front"/>
+    <origin xyz="0.245 0.205 -0.02" rpy="${3*pi/2} ${pi} 0"/>
+    <axis xyz="0 0 1"/>
+</joint>
+
+  <gazebo reference="left_wheel_front">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+
+  <!-- LEFT WHEEL BACK -->
+<link name="left_wheel_back">
+  <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
+          <cylinder radius="0.0625" length="0.08"/>
+      </geometry>
+      <material name="black"/>
+  </visual>
+  <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
+          <cylinder radius="0.0625" length="0.08"/>
+      </geometry>
+  </collision>
+
+  <xacro:inertial_cylinder mass="0.5" radius="0.0625" length="0.08">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:inertial_cylinder> 
+</link>
+
+<joint name="left_wheel_back" type="continuous">
+  <parent link="base_link"/>
+  <child link="left_wheel_back"/>
+    <origin xyz="-0.245 0.205 -0.02" rpy="${3*pi/2} ${pi} 0"/>
+    <axis xyz="0 0 1"/>
+</joint>
+
+  <gazebo reference="left_wheel_back">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
 
 <!-- RIGHT WHEEL FRONT -->
-<xacro:robot_wheel joint_name="right_wheel_front" 
-                    joint_type="fixed" 
+<link name="right_wheel_front">
+  <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
+          <cylinder radius="0.0625" length="0.08"/>
+      </geometry>
+      <material name="black"/>
+  </visual>
+  <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
+          <cylinder radius="0.0625" length="0.08"/>
+      </geometry>
+  </collision>
+
+  <xacro:inertial_cylinder mass="0.5" radius="0.0625" length="0.08">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:inertial_cylinder> 
+</link>
+
+<joint name="right_wheel_front" type="continuous">
+  <parent link="base_link"/>
+  <child link="right_wheel_front"/>
+    <origin xyz="0.245 -0.205 -0.02" rpy="${pi/2} 0 0"/>
+    <axis xyz="0 0 1"/>
+</joint>
+
+  <gazebo reference="right_wheel_front">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+
+<!-- RIGHT WHEEL BACK -->
+<link name="right_wheel_back">
+  <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
+          <cylinder radius="0.0625" length="0.08"/>
+      </geometry>
+      <material name="black"/>
+  </visual>
+  <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+          <!-- <mesh filename="package://urdf_omni_drive/description/meshes/wheel.STL"/> -->
+          <cylinder radius="0.0625" length="0.08"/>
+      </geometry>
+  </collision>
+
+  <xacro:inertial_cylinder mass="0.5" radius="0.0625" length="0.08">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:inertial_cylinder> 
+</link>
+
+<joint name="right_wheel_back" type="continuous">
+  <parent link="base_link"/>
+  <child link="right_wheel_back"/>
+    <origin xyz="-0.245 -0.205 -0.02" rpy="${3*pi/2} ${pi} 0"/>
+    <axis xyz="0 0 1"/>
+</joint>
+
+  <gazebo reference="right_wheel_back">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+
+<!-- LEFT WHEEL FRONT -->
+<!-- <xacro:robot_wheel joint_name="left_wheel_front" 
+                    joint_type="continuous" 
+                    parent="base_link" 
+                    origin_x="0.245" 
+                    origin_y="0.205" 
+                    origin_z="-0.02" 
+                    rotation_x="${3*pi/2}"
+                    rotation_y="${pi}"
+                    rotation_z="0"
+                    radius="0.0625" 
+                    length="0.08">
+</xacro:robot_wheel> -->
+
+<!-- LEFT WHEEL BACK -->
+<!-- <xacro:robot_wheel joint_name="left_wheel_back" 
+                    joint_type="continuous" 
+                    parent="base_link" 
+                    origin_x="-0.245" 
+                    origin_y="0.205" 
+                    origin_z="-0.02" 
+                    rotation_x="${3*pi/2}"
+                    rotation_y="${pi}"
+                    rotation_z="0"
+                    radius="0.0625" 
+                    length="0.08">
+</xacro:robot_wheel> -->
+
+<!-- RIGHT WHEEL FRONT -->
+<!-- <xacro:robot_wheel joint_name="right_wheel_front" 
+                    joint_type="continuous" 
                     parent="base_link" 
                     origin_x="0.245" 
                     origin_y="-0.205" 
@@ -101,11 +264,11 @@
                     rotation_z="0"
                     radius="0.0625" 
                     length="0.08">
-</xacro:robot_wheel>
+</xacro:robot_wheel> -->
 
 <!-- RIGHT WHEEL BACK -->
-<xacro:robot_wheel joint_name="right_wheel_back" 
-                    joint_type="fixed" 
+<!-- <xacro:robot_wheel joint_name="right_wheel_back" 
+                    joint_type="continuous" 
                     parent="base_link" 
                     origin_x="-0.245" 
                     origin_y="-0.205" 
@@ -115,7 +278,7 @@
                     rotation_z="0"
                     radius="0.0625" 
                     length="0.08">
-</xacro:robot_wheel>
+</xacro:robot_wheel> -->
 
 <!-- <joint name="left_wheel_front_joint" type="fixed">
   <parent link="base_link"/>

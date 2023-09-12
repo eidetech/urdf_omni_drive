@@ -11,6 +11,8 @@ from launch_ros.actions import Node
 
 from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
+import xacro
+from launch.substitutions import LaunchConfiguration, TextSubstitution
 
 def generate_launch_description():
 
@@ -75,13 +77,24 @@ def generate_launch_description():
         arguments=['-d', joy_config_path]
     )
 
+    # Robot state publisher for wheel velocities in Rviz2
+    xacro_path = os.path.join(get_package_share_directory('urdf_omni_drive'), 'description', 'robot.urdf.xacro')   
+    urdf = xacro.process_file(xacro_path)
+    robot_state_publisher_node = Node(package='robot_state_publisher',
+                                      namespace='',
+                                      executable='robot_state_publisher',
+                                      parameters=[{'robot_description': urdf.toxml(),
+                                                   'use_sim_time': False}])
+
+
     # Launch all
     return LaunchDescription([
         rsp,
         # gazebo,
         spawn_entity,
-        joy_node,
-        teleop_node,
+        # joy_node,
+        # teleop_node,
         slam,
-        rviz2
+        rviz2,
+        # robot_state_publisher_node
     ])
