@@ -21,11 +21,16 @@ def generate_launch_description():
         [FindPackageShare(package_name), "config", "joy.yaml"]
     )
 
+    # Path to rviz2 config
+    joy_config_path = PathJoinSubstitution(
+        [FindPackageShare(package_name), "config", "view_bot_lidar_map.rviz"]
+    )
+
     # Robot State Publisher
     rsp = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory(package_name),'launch','rsp.launch.py'
-                )]), launch_arguments={'use_sim_time': 'true'}.items()
+                )]), launch_arguments={'use_sim_time': 'false'}.items()
     )
 
     # Gazebo
@@ -55,12 +60,28 @@ def generate_launch_description():
             output='screen',
             parameters=[joy_config_path]
         )
+    
+    slam = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([os.path.join(
+                get_package_share_directory('slam_toolbox'),'launch','online_async_launch.py'
+            )]), launch_arguments={'use_sim_time': 'false', 'slam_params_file': './src/urdf_omni_drive/config/mapper_params_online_async.yaml'}.items()
+        )
+    
+    rviz2 = Node(
+        package='rviz2',
+        namespace='',
+        executable='rviz2',
+        name='rviz2',
+        arguments=['-d', joy_config_path]
+    )
 
     # Launch all
     return LaunchDescription([
         rsp,
-        gazebo,
+        # gazebo,
         spawn_entity,
         joy_node,
-        teleop_node
+        teleop_node,
+        slam,
+        rviz2
     ])
